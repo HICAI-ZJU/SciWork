@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="480" viewBox="0 0 480 480">
+  <!-- 纸面纹理（透明底，平铺）：极淡蓝点阵 + 分子六环 + 玉绿小图谱角标 -->
+  <defs>
+    <pattern id="dots" width="48" height="48" patternUnits="userSpaceOnUse">
+      <circle cx="24" cy="24" r="1" fill="#005bac" fill-opacity="0.045"/>
+    </pattern>
+  </defs>
+
+  <rect width="480" height="480" fill="url(#dots)"/>
+
+  <!-- 分子六环提示（Science） -->
+  <g stroke="#005bac" stroke-opacity="0.028" fill="none" stroke-width="1.6">
+    <path d="M340 70 L 382 94 L 382 142 L 340 166 L 298 142 L 298 94 Z"/>
+    <path d="M382 142 L 424 166"/>
+    <circle cx="424" cy="166" r="3.2"/>
+  </g>
+
+  <!-- 小图谱角标（AI，玉绿） -->
+  <g stroke="#1d8a78" stroke-opacity="0.04" fill="none" stroke-width="1.4">
+    <path d="M84 396 L 120 372 L 152 398"/>
+    <circle cx="84" cy="396" r="2.6"/>
+    <circle cx="120" cy="372" r="2.2"/>
+    <circle cx="152" cy="398" r="2.6"/>
+  </g>
+</svg>

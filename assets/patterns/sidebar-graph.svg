@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 1280" preserveAspectRatio="xMidYMid slice">
+  <!-- 左栏背景：深浙大蓝渐变 + 低对比知识图谱星座 + 水墨山影 + 克制光晕 -->
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#07396f"/>
+      <stop offset="0.55" stop-color="#052a54"/>
+      <stop offset="1" stop-color="#031a38"/>
+    </linearGradient>
+    <radialGradient id="blueGlow" cx="0.82" cy="0.08" r="0.55">
+      <stop offset="0" stop-color="#2b7ec8" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#2b7ec8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="redGlow" cx="0.12" cy="0.96" r="0.5">
+      <stop offset="0" stop-color="#b01f24" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#b01f24" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="720" height="1280" fill="url(#sky)"/>
+  <rect width="720" height="1280" fill="url(#blueGlow)"/>
+  <rect width="720" height="1280" fill="url(#redGlow)"/>
+
+  <!-- 知识图谱星座：连线 -->
+  <g stroke="#cfe3f7" stroke-opacity="0.06" stroke-width="1.4" fill="none">
+    <path d="M120 150 L 260 110 L 420 170 L 560 120"/>
+    <path d="M260 110 L 300 260 L 180 360"/>
+    <path d="M420 170 L 470 320 L 300 260"/>
+    <path d="M470 320 L 620 410"/>
+    <path d="M180 360 L 240 540 L 430 600"/>
+    <path d="M620 410 L 430 600"/>
+    <path d="M240 540 L 130 700"/>
+    <path d="M430 600 L 520 780 L 360 900"/>
+    <path d="M130 700 L 360 900"/>
+  </g>
+  <!-- 知识图谱星座：节点 -->
+  <g fill="#cfe3f7" fill-opacity="0.10">
+    <circle cx="120" cy="150" r="3"/>
+    <circle cx="260" cy="110" r="2.4"/>
+    <circle cx="420" cy="170" r="3.2"/>
+    <circle cx="560" cy="120" r="2.2"/>
+    <circle cx="300" cy="260" r="2.6"/>
+    <circle cx="180" cy="360" r="3"/>
+    <circle cx="470" cy="320" r="2.4"/>
+    <circle cx="620" cy="410" r="2.8"/>
+    <circle cx="240" cy="540" r="2.4"/>
+    <circle cx="130" cy="700" r="2.6"/>
+    <circle cx="520" cy="780" r="2.4"/>
+    <circle cx="360" cy="900" r="3"/>
+  </g>
+  <!-- 玉绿强调节点：AI / 图谱辅助色 -->
+  <g>
+    <circle cx="430" cy="600" r="3.6" fill="#35b39e" fill-opacity="0.20"/>
+    <circle cx="430" cy="600" r="8" fill="none" stroke="#35b39e" stroke-opacity="0.10" stroke-width="1.2"/>
+  </g>
+
+  <!-- 水墨山影（中国风，置于底部，被界面元素自然遮挡大半） -->
+  <path d="M0 1130 Q 120 1040 240 1102 T 480 1086 T 720 1130 L 720 1280 L 0 1280 Z"
+        fill="#0a4076" fill-opacity="0.30"/>
+  <path d="M0 1190 Q 160 1110 330 1168 T 720 1176 L 720 1280 L 0 1280 Z"
+        fill="#021629" fill-opacity="0.55"/>
+</svg>
