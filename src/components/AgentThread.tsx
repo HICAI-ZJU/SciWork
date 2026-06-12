@@ -1,5 +1,6 @@
 import { UserRound } from 'lucide-react';
 import type { Project, ScienceSession, StageStatus, WorkflowStageId } from '../domain/types';
+import { themeAssets } from '../theme/assets';
 import { formatStageStatus, formatValidationStatus } from '../workflow/presentation';
 import type { WorkflowArtifacts } from '../workflow/runStage';
 import { stageDefinitions } from '../workflow/stageMachine';
@@ -41,7 +42,12 @@ export function AgentThread({
 
       <article className="thread-message thread-message--assistant">
         <div className="thread-message__avatar thread-message__avatar--assistant">
-          <SciWorkPulseIcon state="thinking" title="SciWork 求是智核" tone="light" />
+          <SciWorkPulseIcon
+            imageSrc={themeAssets.assistantAvatar}
+            state="thinking"
+            title="SciWork 求是智核"
+            tone="light"
+          />
         </div>
         <div className="thread-message__body">
           <span className="thread-message__author">科学助手</span>

@@ -261,6 +261,7 @@ input:focus-visible {
 
 /* 求是智核：极简 AI for Science IP，小尺寸保留知识图谱 + Science 轨道 */
 .sciwork-pulse-icon {
+  position: relative;
   display: block;
   width: 100%;
   height: 100%;
@@ -268,12 +269,34 @@ input:focus-visible {
   overflow: visible;
 }
 
+.sciwork-pulse-icon__asset,
+.sciwork-pulse-icon__motion {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.sciwork-pulse-icon__asset {
+  z-index: 1;
+  border-radius: inherit;
+  object-fit: cover;
+  transform-origin: center;
+  animation: sciwork-core-breathe 2.8s ease-in-out infinite;
+}
+
+.sciwork-pulse-icon__motion {
+  z-index: 2;
+  pointer-events: none;
+}
+
 .sciwork-pulse-icon[data-tone='light'] {
   color: #005bac;
 }
 
 .sciwork-pulse-icon__halo {
-  fill: rgba(43, 126, 200, 0.12);
+  fill: rgba(43, 126, 200, 0.04);
   stroke: rgba(143, 200, 255, 0.42);
   stroke-width: 1;
   transform-origin: 32px 32px;
@@ -281,7 +304,7 @@ input:focus-visible {
 }
 
 .sciwork-pulse-icon[data-tone='light'] .sciwork-pulse-icon__halo {
-  fill: #fff;
+  fill: rgba(255, 255, 255, 0.08);
   stroke: rgba(0, 91, 172, 0.18);
   filter: drop-shadow(0 5px 16px rgba(18, 43, 73, 0.12));
 }
@@ -478,6 +501,7 @@ input:focus-visible {
   .sidebar__identity-sheen,
   .sidebar__avatar-ring::before,
   .sidebar__wordmark strong,
+  .sciwork-pulse-icon__asset,
   .sciwork-pulse-icon__halo,
   .sciwork-pulse-icon__body,
   .sciwork-pulse-icon__science-orbit,
