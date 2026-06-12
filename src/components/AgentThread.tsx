@@ -40,8 +40,8 @@ export function AgentThread({
       </header>
 
       <article className="thread-message thread-message--assistant">
-        <div className="thread-message__avatar">
-          <SciWorkPulseIcon state="thinking" title="SciWork 求是智核" />
+        <div className="thread-message__avatar thread-message__avatar--assistant">
+          <SciWorkPulseIcon state="thinking" title="SciWork 外星科研智核" tone="light" />
         </div>
         <div className="thread-message__body">
           <span className="thread-message__author">科学助手</span>

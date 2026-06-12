@@ -259,13 +259,17 @@ input:focus-visible {
   }
 }
 
-/* 求是智核：抽象 AI for Science IP，小尺寸也可读的节点呼吸动画 */
+/* 外星科研智核：极简 AI for Science IP，小尺寸保留知识图谱 + Science 轨道 */
 .sciwork-pulse-icon {
   display: block;
   width: 100%;
   height: 100%;
   color: #005bac;
   overflow: visible;
+}
+
+.sciwork-pulse-icon[data-tone='light'] {
+  color: #005bac;
 }
 
 .sciwork-pulse-icon__halo {
@@ -276,46 +280,66 @@ input:focus-visible {
   animation: sciwork-core-breathe 2.6s ease-in-out infinite;
 }
 
-.sciwork-pulse-icon__orbit {
-  fill: none;
-  stroke: rgba(207, 227, 247, 0.76);
-  stroke-width: 1.15;
-  transform-origin: 32px 32px;
-  animation: sciwork-core-orbit 8s linear infinite;
+.sciwork-pulse-icon[data-tone='light'] .sciwork-pulse-icon__halo {
+  fill: #fff;
+  stroke: rgba(0, 91, 172, 0.18);
+  filter: drop-shadow(0 5px 16px rgba(18, 43, 73, 0.12));
 }
 
-.sciwork-pulse-icon__links {
-  fill: none;
-  stroke: rgba(244, 251, 255, 0.72);
+.sciwork-pulse-icon__graph {
+  fill: #8fc8ff;
+  stroke: url("#sciworkAlienLine");
   stroke-linecap: round;
-  stroke-width: 1.15;
-}
-
-.sciwork-pulse-icon__seal {
-  fill: rgba(6, 58, 117, 0.24);
-  stroke: url("#sciworkPulseRing");
   stroke-linejoin: round;
   stroke-width: 1.4;
 }
 
+.sciwork-pulse-icon__graph circle {
+  stroke: #f8fbff;
+  stroke-width: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sciwork-node-pop 2.8s ease-in-out infinite;
+}
+
+.sciwork-pulse-icon__body {
+  fill: url("#sciworkAlienBody");
+  stroke: rgba(244, 251, 255, 0.72);
+  stroke-width: 1;
+  transform-origin: 32px 35px;
+  animation: sciwork-core-float 3.2s ease-in-out infinite;
+}
+
+.sciwork-pulse-icon__science-orbit {
+  fill: none;
+  stroke: rgba(244, 251, 255, 0.86);
+  stroke-width: 1.6;
+  transform-origin: 32px 35px;
+  animation: sciwork-core-orbit 6.8s linear infinite;
+}
+
+.sciwork-pulse-icon[data-tone='light'] .sciwork-pulse-icon__science-orbit {
+  stroke: rgba(179, 222, 255, 0.92);
+}
+
+.sciwork-pulse-icon__face {
+  fill: none;
+  stroke: #f8fbff;
+  stroke-linecap: round;
+  stroke-width: 2.6;
+}
+
 .sciwork-pulse-icon__core {
-  fill: url("#sciworkPulseCore");
-  filter: drop-shadow(0 0 6px rgba(53, 179, 158, 0.52));
-  transform-origin: 32px 32px;
+  fill: url("#sciworkAlienCore");
+  filter: drop-shadow(0 0 7px rgba(107, 216, 255, 0.72));
+  transform-origin: 32px 35px;
   animation: sciwork-core-pulse 1.7s ease-in-out infinite;
 }
 
-.sciwork-pulse-icon__nodes circle,
 .sciwork-pulse-icon__red-nodes circle {
   transform-box: fill-box;
   transform-origin: center;
-  animation: sciwork-node-pop 2.2s ease-in-out infinite;
-}
-
-.sciwork-pulse-icon__nodes circle {
-  fill: #8fc8ff;
-  stroke: #f4fbff;
-  stroke-width: 0.7;
+  animation: sciwork-node-pop 2.8s ease-in-out infinite;
 }
 
 .sciwork-pulse-icon__red-nodes circle {
@@ -324,33 +348,17 @@ input:focus-visible {
   stroke-width: 0.7;
 }
 
-.sciwork-pulse-icon__nodes circle:nth-child(2) {
-  animation-delay: 0.18s;
-}
-
-.sciwork-pulse-icon__nodes circle:nth-child(3) {
-  animation-delay: 0.36s;
-}
-
-.sciwork-pulse-icon__nodes circle:nth-child(4) {
-  animation-delay: 0.54s;
-}
-
-.sciwork-pulse-icon__nodes circle:nth-child(5) {
-  animation-delay: 0.72s;
-}
-
-.sciwork-pulse-icon__nodes circle:nth-child(6) {
-  animation-delay: 0.9s;
-}
-
 .sciwork-pulse-icon[data-state='thinking'] .sciwork-pulse-icon__core,
 .sciwork-pulse-icon[data-state='active'] .sciwork-pulse-icon__core {
   animation-duration: 1.25s;
 }
 
-.sciwork-pulse-icon[data-state='thinking'] .sciwork-pulse-icon__orbit {
+.sciwork-pulse-icon[data-state='thinking'] .sciwork-pulse-icon__science-orbit {
   animation-duration: 5.8s;
+}
+
+.sciwork-pulse-icon[data-state='thinking'][data-tone='light'] .sciwork-pulse-icon__halo {
+  animation-duration: 1.9s;
 }
 
 @keyframes sciwork-core-breathe {
@@ -374,6 +382,17 @@ input:focus-visible {
 
   50% {
     transform: scale(1.08);
+  }
+}
+
+@keyframes sciwork-core-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-1.5px);
   }
 }
 
@@ -402,9 +421,10 @@ input:focus-visible {
   .sidebar__avatar-ring::before,
   .sidebar__wordmark strong,
   .sciwork-pulse-icon__halo,
-  .sciwork-pulse-icon__orbit,
+  .sciwork-pulse-icon__body,
+  .sciwork-pulse-icon__science-orbit,
   .sciwork-pulse-icon__core,
-  .sciwork-pulse-icon__nodes circle,
+  .sciwork-pulse-icon__graph circle,
   .sciwork-pulse-icon__red-nodes circle {
     animation: none;
   }
@@ -719,6 +739,14 @@ input:focus-visible {
   border-radius: 8px;
   color: #fff;
   background: var(--zju-blue-strong);
+}
+
+.thread-message__avatar--assistant {
+  padding: 2px;
+  border: 1px solid rgba(0, 91, 172, 0.14);
+  color: var(--zju-blue);
+  background: #fff;
+  box-shadow: 0 4px 14px rgba(18, 43, 73, 0.08);
 }
 
 .thread-message--user .thread-message__avatar {

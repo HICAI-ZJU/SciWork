@@ -16,7 +16,7 @@ describe('SciWork Desktop app', () => {
     // 左栏：身份行（求是智核 + 当前空间）+ 项目/会话两级导航
     expect(within(sidebar).getByText('SciWork')).toBeInTheDocument();
     expect(within(sidebar).getByText('浙江大学自动化反应发现空间')).toBeInTheDocument();
-    expect(within(sidebar).getByRole('img', { name: /SciWork 求是智核/ })).toBeInTheDocument();
+    expect(within(sidebar).getByRole('img', { name: /SciWork 外星科研智核/ })).toBeInTheDocument();
     expect(within(sidebar).getByRole('heading', { name: '项目' })).toBeInTheDocument();
     expect(within(sidebar).getByRole('heading', { name: '会话' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /新建项目/ })).toBeInTheDocument();
@@ -33,7 +33,9 @@ describe('SciWork Desktop app', () => {
 
     // 中栏头部与右栏知识资产
     expect(within(main).getByRole('heading', { name: '温和条件下偶联反应优化演示项目' })).toBeInTheDocument();
-    expect(screen.getAllByRole('img', { name: /SciWork 求是智核/ }).length).toBeGreaterThanOrEqual(2);
+    const assistantStatusIcon = within(main).getByRole('img', { name: /SciWork 外星科研智核/ });
+    expect(assistantStatusIcon).toHaveAttribute('data-tone', 'light');
+    expect(screen.getAllByRole('img', { name: /SciWork 外星科研智核/ }).length).toBeGreaterThanOrEqual(2);
     const assetPills = within(context).getByRole('group', { name: '知识资产状态' });
     expect(within(assetPills).getByText('SciGraph')).toBeInTheDocument();
     expect(within(assetPills).getByText('LabOntology')).toBeInTheDocument();
