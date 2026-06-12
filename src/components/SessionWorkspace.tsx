@@ -1,6 +1,5 @@
 import type { LiteratureItem, Project, ScienceSession, ScientificSpace } from '../domain/types';
 import { useWorkflowController } from '../hooks/useWorkflowController';
-import { themeAssets } from '../theme/assets';
 import { AgentThread } from './AgentThread';
 import { Composer } from './Composer';
 import { ContextPanel } from './ContextPanel';
@@ -27,7 +26,6 @@ export function SessionWorkspace({ project, session, space, literature, workspac
         <AgentThread
           project={project}
           session={session}
-          assistantAvatar={themeAssets.assistantAvatar}
           message={workflow.message}
           activeStageId={workflow.stageState.activeStageId}
           statusByStage={workflow.stageState.statusByStage}

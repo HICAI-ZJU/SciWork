@@ -12,9 +12,7 @@ describe('Electron app identity', () => {
     expect(APP_USER_MODEL_ID).toBe('edu.zju.sciwork.desktop');
   });
 
-  it('uses the senior professor black-and-white hair avatar as the desktop icon', () => {
-    expect(APP_ICON_ASSET_PATH).toBe(
-      '../assets/characters/sciwork-character-senior-professor-bighead-zju-ai-v2.png'
-    );
+  it('uses the Qiushi Intelligence Core as the desktop icon', () => {
+    expect(APP_ICON_ASSET_PATH).toBe('../assets/ip/sciwork-ip-qiushi-core-icon-v1.png');
   });
 });

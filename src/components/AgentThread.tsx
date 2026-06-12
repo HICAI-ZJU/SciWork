@@ -1,13 +1,13 @@
-import { Bot, UserRound } from 'lucide-react';
+import { UserRound } from 'lucide-react';
 import type { Project, ScienceSession, StageStatus, WorkflowStageId } from '../domain/types';
 import { formatStageStatus, formatValidationStatus } from '../workflow/presentation';
 import type { WorkflowArtifacts } from '../workflow/runStage';
 import { stageDefinitions } from '../workflow/stageMachine';
+import { SciWorkPulseIcon } from './SciWorkPulseIcon';
 
 interface AgentThreadProps {
   project: Project;
   session: ScienceSession | undefined;
-  assistantAvatar: string;
   message: string;
   activeStageId: WorkflowStageId;
   statusByStage: Record<WorkflowStageId, StageStatus>;
@@ -17,7 +17,6 @@ interface AgentThreadProps {
 export function AgentThread({
   project,
   session,
-  assistantAvatar,
   message,
   activeStageId,
   statusByStage,
@@ -42,7 +41,7 @@ export function AgentThread({
 
       <article className="thread-message thread-message--assistant">
         <div className="thread-message__avatar">
-          {assistantAvatar ? <img alt="SciWork 科学助手" src={assistantAvatar} /> : <Bot size={18} />}
+          <SciWorkPulseIcon state="thinking" title="SciWork 求是智核" />
         </div>
         <div className="thread-message__body">
           <span className="thread-message__author">科学助手</span>
