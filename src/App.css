@@ -329,6 +329,47 @@ input:focus-visible {
   animation: sciwork-core-pulse 1.7s ease-in-out infinite;
 }
 
+.sciwork-pulse-icon__molecule {
+  opacity: 0.56;
+  transform-origin: 32px 32px;
+  animation: sciwork-molecule-turn 7.2s ease-in-out infinite;
+}
+
+.sciwork-pulse-icon[data-state='thinking'] .sciwork-pulse-icon__molecule {
+  opacity: 0.95;
+  animation-duration: 4.8s;
+}
+
+.sciwork-pulse-icon__molecule-bonds {
+  fill: none;
+  stroke: rgba(244, 251, 255, 0.86);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.1;
+}
+
+.sciwork-pulse-icon[data-tone='light'] .sciwork-pulse-icon__molecule-bonds {
+  stroke: rgba(0, 91, 172, 0.45);
+}
+
+.sciwork-pulse-icon__molecule-atoms circle {
+  fill: #f8fbff;
+  stroke: #8fc8ff;
+  stroke-width: 0.65;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: sciwork-atom-glint 2.4s ease-in-out infinite;
+}
+
+.sciwork-pulse-icon__molecule-atoms circle:nth-child(3) {
+  fill: #9ad5ff;
+}
+
+.sciwork-pulse-icon__molecule-atoms circle:nth-child(7) {
+  fill: #b01f24;
+  stroke: #ffe1e1;
+}
+
 .sciwork-pulse-icon__red-nodes circle {
   transform-box: fill-box;
   transform-origin: center;
@@ -395,6 +436,30 @@ input:focus-visible {
   }
 }
 
+@keyframes sciwork-molecule-turn {
+  0%,
+  100% {
+    transform: rotate(-14deg) scaleX(0.82);
+  }
+
+  50% {
+    transform: rotate(18deg) scaleX(1.08);
+  }
+}
+
+@keyframes sciwork-atom-glint {
+  0%,
+  100% {
+    opacity: 0.72;
+    transform: scale(0.92);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.12);
+  }
+}
+
 @keyframes sciwork-node-pop {
   0%,
   100% {
@@ -417,6 +482,8 @@ input:focus-visible {
   .sciwork-pulse-icon__body,
   .sciwork-pulse-icon__science-orbit,
   .sciwork-pulse-icon__core,
+  .sciwork-pulse-icon__molecule,
+  .sciwork-pulse-icon__molecule-atoms circle,
   .sciwork-pulse-icon__graph circle,
   .sciwork-pulse-icon__red-nodes circle {
     animation: none;
