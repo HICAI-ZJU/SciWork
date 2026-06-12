@@ -12,7 +12,7 @@ describe('Electron app identity', () => {
     expect(APP_USER_MODEL_ID).toBe('edu.zju.sciwork.desktop');
   });
 
-  it('uses the alien Science Core as the desktop icon', () => {
-    expect(APP_ICON_ASSET_PATH).toBe('../assets/ip/sciwork-ip-alien-core-icon-v1.png');
+  it('uses the Qiushi Intelligence Core v2 as the desktop icon', () => {
+    expect(APP_ICON_ASSET_PATH).toBe('../assets/ip/sciwork-ip-qiushi-core-v2-icon.png');
   });
 });

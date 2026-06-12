@@ -259,7 +259,7 @@ input:focus-visible {
   }
 }
 
-/* 外星科研智核：极简 AI for Science IP，小尺寸保留知识图谱 + Science 轨道 */
+/* 求是智核：极简 AI for Science IP，小尺寸保留知识图谱 + Science 轨道 */
 .sciwork-pulse-icon {
   display: block;
   width: 100%;
@@ -288,7 +288,7 @@ input:focus-visible {
 
 .sciwork-pulse-icon__graph {
   fill: #8fc8ff;
-  stroke: url("#sciworkAlienLine");
+  stroke: url("#sciworkQiushiLine");
   stroke-linecap: round;
   stroke-linejoin: round;
   stroke-width: 1.4;
@@ -303,10 +303,10 @@ input:focus-visible {
 }
 
 .sciwork-pulse-icon__body {
-  fill: url("#sciworkAlienBody");
+  fill: url("#sciworkQiushiShell");
   stroke: rgba(244, 251, 255, 0.72);
   stroke-width: 1;
-  transform-origin: 32px 35px;
+  transform-origin: 32px 32px;
   animation: sciwork-core-float 3.2s ease-in-out infinite;
 }
 
@@ -314,7 +314,7 @@ input:focus-visible {
   fill: none;
   stroke: rgba(244, 251, 255, 0.86);
   stroke-width: 1.6;
-  transform-origin: 32px 35px;
+  transform-origin: 32px 32px;
   animation: sciwork-core-orbit 6.8s linear infinite;
 }
 
@@ -322,17 +322,10 @@ input:focus-visible {
   stroke: rgba(179, 222, 255, 0.92);
 }
 
-.sciwork-pulse-icon__face {
-  fill: none;
-  stroke: #f8fbff;
-  stroke-linecap: round;
-  stroke-width: 2.6;
-}
-
 .sciwork-pulse-icon__core {
-  fill: url("#sciworkAlienCore");
+  fill: url("#sciworkQiushiCore");
   filter: drop-shadow(0 0 7px rgba(107, 216, 255, 0.72));
-  transform-origin: 32px 35px;
+  transform-origin: 32px 32px;
   animation: sciwork-core-pulse 1.7s ease-in-out infinite;
 }
 

@@ -42,7 +42,7 @@ export function Sidebar({
       {/* 身份区：IP 形象 + 流光特效 + 当前科学发现空间 */}
       <div className="sidebar__identity">
         <span className="sidebar__avatar-ring">
-          <SciWorkPulseIcon className="sidebar__logo" state="active" title="SciWork 外星科研智核" />
+          <SciWorkPulseIcon className="sidebar__logo" state="active" title="SciWork 求是智核" />
         </span>
         <div className="sidebar__wordmark">
           <strong>SciWork</strong>
