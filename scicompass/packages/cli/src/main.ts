@@ -29,6 +29,8 @@ if (cmd === 'serve') {
   };
   if (httpPort) {
     const gw = await startHttpGateway(serveOpts, Number(httpPort));
+    // 机器可读端口行（stdout），供父进程（Electron 主进程）解析；--http 0 时 OS 分配端口
+    console.log(`SCICOMPASS_GATEWAY_PORT=${gw.port}`);
     console.error(`scicompass HTTP gateway listening on http://127.0.0.1:${gw.port} (modules: ${modules.join(', ')})`);
   } else {
     const server = buildServer(serveOpts);

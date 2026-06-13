@@ -1,7 +1,19 @@
 // SciWork 前端 → SciCompass HTTP 网关的薄客户端。
 // UI 不是 LLM，但消费的是同一套 MCP 工具（网关进程内转发），数据与 Claude/Codex 完全一致。
-const BASE: string =
-  (import.meta.env.VITE_SCICOMPASS_URL as string | undefined) ?? 'http://127.0.0.1:4517';
+//
+// baseUrl 解析优先级：
+//   1. Electron 主进程注入的 ?scicompassBase=（托管 sidecar 的实际端口）
+//   2. VITE_SCICOMPASS_URL 环境变量（浏览器 dev 联调）
+//   3. 默认 4517（dev:fullstack 约定端口）
+function resolveBase(): string {
+  try {
+    const injected = new URLSearchParams(window.location.search).get('scicompassBase');
+    if (injected) return injected;
+  } catch { /* 非浏览器环境（测试）忽略 */ }
+  return (import.meta.env.VITE_SCICOMPASS_URL as string | undefined) ?? 'http://127.0.0.1:4517';
+}
+
+const BASE: string = resolveBase();
 
 export interface HealthInfo {
   ok: boolean;
