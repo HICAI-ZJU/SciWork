@@ -2,13 +2,13 @@ import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import { SessionWorkspace } from './components/SessionWorkspace';
 import { Sidebar } from './components/Sidebar';
-import { SciCompassWorkbench } from './components/SciCompassWorkbench';
-import { demoLiterature, demoProjects, demoSessions, demoSpace } from './domain/demoData';
+import { SpaceHeader } from './components/SpaceHeader';
+import { LoginPage } from './components/LoginPage';
+import { useAuth } from './auth/AuthContext';
+import { demoLiterature, demoProjects, demoSessions } from './domain/demoData';
 import { projectDirectory } from './domain/project';
 import { themeAssets } from './theme/assets';
-import type { Project, ScienceSession } from './domain/types';
-
-type WorkbenchView = 'demo' | 'live';
+import type { Project, ScienceSession, ScientificSpace } from './domain/types';
 
 type ShellStyle = CSSProperties & {
   '--sciwork-skin': string;
@@ -26,8 +26,24 @@ function createDemoSession(projectId: string, sequence: number): ScienceSession 
   };
 }
 
+// 门控：未登录显示登录页；登录后进入其所属空间的工作台外壳。
 export function App() {
-  const [view, setView] = useState<WorkbenchView>('demo');
+  const { status } = useAuth();
+  if (status === 'anonymous') return <LoginPage />;
+  return <AuthedApp />;
+}
+
+function AuthedApp() {
+  const { spaceConfig } = useAuth();
+  // 登录后空间身份来自后端 spaceConfig，适配为 UI 的 ScientificSpace。
+  const space: ScientificSpace = {
+    id: spaceConfig!.space,
+    name: spaceConfig!.displayName,
+    domain: spaceConfig!.domain ?? '',
+    device: spaceConfig!.devices[0]?.name ?? '—',
+    policy: 'Queue With Approval'
+  };
+
   const [projects, setProjects] = useState<Project[]>(demoProjects);
   const [sessions, setSessions] = useState<ScienceSession[]>(demoSessions);
   const [activeProjectId, setActiveProjectId] = useState(demoProjects[0].id);
@@ -41,7 +57,7 @@ export function App() {
     const sequence = String(projects.length + 1).padStart(2, '0');
     const project: Project = {
       id: `project-${Date.now()}`,
-      spaceId: demoSpace.id,
+      spaceId: space.id,
       name: `新建科研项目 ${sequence}`,
       objective: '定义新的反应科学任务并开始探索。'
     };
@@ -73,43 +89,12 @@ export function App() {
     '--sciwork-paper': `url(${themeAssets.paperTexture})`
   };
 
-  // 悬浮视图切换：默认演示流程（mock 工作流），可切到实盘工作台（真实连接 SciCompass 后端）
-  const modeSwitch = (
-    <div className="view-switch" role="tablist" aria-label="工作台视图切换">
-      <button
-        role="tab"
-        aria-selected={view === 'demo'}
-        className={view === 'demo' ? 'is-active' : ''}
-        onClick={() => setView('demo')}
-      >
-        演示流程
-      </button>
-      <button
-        role="tab"
-        aria-selected={view === 'live'}
-        className={view === 'live' ? 'is-active' : ''}
-        onClick={() => setView('live')}
-      >
-        SciCompass 实盘
-      </button>
-    </div>
-  );
-
-  if (view === 'live') {
-    return (
-      <>
-        {modeSwitch}
-        <SciCompassWorkbench />
-      </>
-    );
-  }
-
   return (
     <>
-      {modeSwitch}
+      <SpaceHeader />
       <div className="desktop-app" style={shellStyle}>
         <Sidebar
-          space={demoSpace}
+          space={space}
           projects={projects}
           activeProjectId={activeProject.id}
           sessions={projectSessions}
@@ -124,7 +109,7 @@ export function App() {
           key={`${activeProject.id}/${activeSession?.id ?? 'none'}`}
           project={activeProject}
           session={activeSession}
-          space={demoSpace}
+          space={space}
           literature={demoLiterature}
           workspacePath={workspacePath}
         />
