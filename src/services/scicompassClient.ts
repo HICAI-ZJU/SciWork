@@ -22,12 +22,33 @@ export interface HealthInfo {
   tools: number;
 }
 
+export interface Account {
+  username: string;
+  displayName: string;
+  team: { id: string; name: string };
+  space: string;
+}
+export interface SpaceConfig {
+  space: string;
+  displayName: string;
+  institution?: string;
+  domain?: string;
+  accentColor?: string;
+  devices: { id: string; name: string; kind: string }[];
+}
+
+// 当前登录空间：登录成功后由 AuthContext 设置，callTool 据此路由到对应空间。
+let activeSpace: string | null = null;
+export function setActiveSpace(space: string | null): void { activeSpace = space; }
+export function getActiveSpace(): string | null { return activeSpace; }
+
 /** 调用任意 SciCompass 工具；失败抛出含后端 error 文本的异常。 */
 export async function callTool<T = unknown>(name: string, args: Record<string, unknown> = {}): Promise<T> {
+  if (!activeSpace) throw new Error('未登录：当前无空间上下文，无法调用后端工具');
   const res = await fetch(`${BASE}/api/call`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, arguments: args })
+    body: JSON.stringify({ space: activeSpace, name, arguments: args })
   });
   const json = await res.json();
   if (!json.ok) throw new Error(json.error ?? `tool ${name} failed`);
@@ -39,10 +60,31 @@ export async function health(): Promise<HealthInfo> {
   return res.json();
 }
 
+export async function login(username: string, password: string): Promise<{ account: Account; spaceConfig: SpaceConfig }> {
+  const res = await fetch(`${BASE}/api/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username, password })
+  });
+  const json = await res.json();
+  if (!json.ok) throw new Error(json.error ?? '登录失败');
+  return { account: json.account, spaceConfig: json.spaceConfig };
+}
+
+export async function listSpaces(): Promise<SpaceConfig[]> {
+  const res = await fetch(`${BASE}/api/spaces`);
+  const json = await res.json();
+  return (json.spaces ?? []) as SpaceConfig[];
+}
+
 // —— 便捷方法（与 31 个工具一一对应的常用子集）——
 export const sc = {
   baseUrl: BASE,
   health,
+  login,
+  listSpaces,
+  setActiveSpace,
+  getActiveSpace,
   projectList: () => callTool<{ projects: any[] }>('project_list'),
   projectCreate: (name: string, objective: string) =>
     callTool<{ id: string; name: string; objective: string; graphSlug: string }>('project_create', { name, objective }),
