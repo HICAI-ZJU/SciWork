@@ -4,6 +4,7 @@ space: zju-oasis
 displayName: 浙大绿洲一号药物发现空间
 institution: 浙江大学智慧绿洲创新中心
 domain: 药物发现的化合物筛选与活性评价
+accentColor: '#E0653A'
 ontology: { space: chemistry, version: v1 }
 groupSlug: grp-oasis
 subscribedKgs: [Biomedical-Drug, DTINet, ClinicalKG, BioActivity]

@@ -4,6 +4,7 @@ space: zju-ichemfoundry
 displayName: 浙大 iChemFoundry 材料发现空间
 institution: 浙江大学科创中心 · 生物与分子智造研究院
 domain: MOF 材料的自动化合成与发现
+accentColor: '#7A5CFF'
 ontology: { space: chemistry, version: v1 }
 groupSlug: grp-ichem
 subscribedKgs: [Material, MatKG, MEKG, ElementKG]

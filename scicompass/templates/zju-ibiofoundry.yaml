@@ -4,6 +4,7 @@ space: zju-ibiofoundry
 displayName: 浙大 iBioFoundry 合成生物空间
 institution: 浙江大学科创中心 · 生物与分子智造研究院
 domain: 合成生物的菌株构建与测试（设计-构建-测试-学习闭环）
+accentColor: '#15A86C'
 ontology: { space: chemistry, version: v1 }
 groupSlug: grp-ibio
 subscribedKgs: [ProteinKG25, RNA-KG, PPIKG]

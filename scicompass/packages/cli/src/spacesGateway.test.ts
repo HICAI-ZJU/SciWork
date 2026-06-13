@@ -82,3 +82,8 @@ it('rejects calls with unknown or missing space', async () => {
   expect(status).toBe(400);
   expect(json.ok).toBe(false);
 });
+
+it('login spaceConfig 带空间强调色 accentColor', async () => {
+  const { json } = await post('/api/login', { username: 'chem.ma', password: 'demo1234' });
+  expect(json.spaceConfig.accentColor).toBe('#2F6BFF');
+});

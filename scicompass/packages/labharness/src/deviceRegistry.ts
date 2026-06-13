@@ -17,6 +17,7 @@ export interface SpaceMeta {
   groupSlug: string;
   subscribedKgs: string[];
   defaultSkills: string[];
+  accentColor?: string;
 }
 
 /** 兼容别名（早期命名） */
@@ -33,7 +34,8 @@ export function readTemplate(file: string): SpaceMeta {
     ontology: tpl.ontology ?? { space: 'chemistry', version: 'v1' },
     groupSlug: tpl.groupSlug,
     subscribedKgs: tpl.subscribedKgs ?? [],
-    defaultSkills: tpl.defaultSkills ?? []
+    defaultSkills: tpl.defaultSkills ?? [],
+    accentColor: tpl.accentColor
   };
 }
 

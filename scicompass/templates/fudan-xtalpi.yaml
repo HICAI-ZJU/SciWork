@@ -4,6 +4,7 @@ space: fudan-xtalpi
 displayName: 复旦晶泰化学反应空间
 institution: 复旦大学化学系
 domain: 自动化化学反应实验（合成、筛选、条件优化）
+accentColor: '#2F6BFF'
 ontology: { space: chemistry, version: v1 }
 groupSlug: grp-masm
 subscribedKgs: [ReaKE, ElementKG, Material, MatKG, MEKG]
