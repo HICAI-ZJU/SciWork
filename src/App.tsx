@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { SessionWorkspace } from './components/SessionWorkspace';
 import { Sidebar } from './components/Sidebar';
 import { SpaceHeader } from './components/SpaceHeader';
 import { LoginPage } from './components/LoginPage';
 import { useAuth } from './auth/AuthContext';
-import { demoLiterature, demoProjects, demoSessions } from './domain/demoData';
+import { sc } from './services/scicompassClient';
 import { projectDirectory } from './domain/project';
 import { themeAssets } from './theme/assets';
 import type { Project, ScienceSession, ScientificSpace } from './domain/types';
@@ -15,7 +15,7 @@ type ShellStyle = CSSProperties & {
   '--sciwork-paper': string;
 };
 
-function createDemoSession(projectId: string, sequence: number): ScienceSession {
+function createSession(projectId: string, sequence: number): ScienceSession {
   return {
     id: `session-${Date.now()}`,
     projectId,
@@ -44,33 +44,56 @@ function AuthedApp() {
     policy: 'Queue With Approval'
   };
 
-  const [projects, setProjects] = useState<Project[]>(demoProjects);
-  const [sessions, setSessions] = useState<ScienceSession[]>(demoSessions);
-  const [activeProjectId, setActiveProjectId] = useState(demoProjects[0].id);
-  const [activeSessionId, setActiveSessionId] = useState(demoSessions[0].id);
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [sessions, setSessions] = useState<ScienceSession[]>([]);
+  const [activeProjectId, setActiveProjectId] = useState('');
+  const [activeSessionId, setActiveSessionId] = useState('');
+  const [loading, setLoading] = useState(true);
 
-  const activeProject = projects.find((project) => project.id === activeProjectId) ?? projects[0];
-  const projectSessions = sessions.filter((session) => session.projectId === activeProject.id);
-  const activeSession = projectSessions.find((session) => session.id === activeSessionId) ?? projectSessions[0];
+  // 按空间从真实后端加载项目（callTool 已按当前 space 路由、物理隔离）。
+  useEffect(() => {
+    let alive = true;
+    setLoading(true);
+    sc.projectList()
+      .then((r) => {
+        if (!alive) return;
+        const mapped: Project[] = r.projects.map((p: any) => ({
+          id: p.id,
+          spaceId: space.id,
+          name: p.name,
+          objective: p.objective ?? '',
+          graphSlug: p.graphSlug
+        }));
+        setProjects(mapped);
+        setActiveProjectId((cur) => cur || mapped[0]?.id || '');
+      })
+      .catch(() => { /* 网关未就绪：保持空列表，显示空态 */ })
+      .finally(() => { if (alive) setLoading(false); });
+    return () => { alive = false; };
+  }, [space.id]);
 
-  function handleCreateProject() {
+  const activeProject = projects.find((project) => project.id === activeProjectId);
+  const projectSessions = sessions.filter((session) => session.projectId === activeProjectId);
+  const activeSession = projectSessions.find((session) => session.id === activeSessionId);
+
+  async function handleCreateProject() {
     const sequence = String(projects.length + 1).padStart(2, '0');
+    const created = await sc.projectCreate(`新建科研项目 ${sequence}`, '定义新的科学任务并开始探索。');
     const project: Project = {
-      id: `project-${Date.now()}`,
+      id: created.id,
       spaceId: space.id,
-      name: `新建科研项目 ${sequence}`,
-      objective: '定义新的反应科学任务并开始探索。'
+      name: created.name,
+      objective: created.objective,
+      graphSlug: created.graphSlug
     };
-    const session = createDemoSession(project.id, 1);
-    setProjects([...projects, project]);
-    setSessions([...sessions, session]);
+    setProjects((prev) => [...prev, project]);
     setActiveProjectId(project.id);
-    setActiveSessionId(session.id);
   }
 
   function handleCreateSession() {
-    const session = createDemoSession(activeProject.id, projectSessions.length + 1);
-    setSessions([...sessions, session]);
+    if (!activeProject) return;
+    const session = createSession(activeProject.id, projectSessions.length + 1);
+    setSessions((prev) => [...prev, session]);
     setActiveSessionId(session.id);
   }
 
@@ -80,9 +103,9 @@ function AuthedApp() {
     setActiveSessionId(firstSession?.id ?? '');
   }
 
-  const workspacePath = activeSession
-    ? `${projectDirectory(activeProject)}/${activeSession.id}`
-    : projectDirectory(activeProject);
+  const workspacePath = activeProject
+    ? (activeSession ? `${projectDirectory(activeProject)}/${activeSession.id}` : projectDirectory(activeProject))
+    : '';
 
   const shellStyle: ShellStyle = {
     '--sciwork-skin': `url(${themeAssets.sidebarTexture})`,
@@ -96,23 +119,31 @@ function AuthedApp() {
         <Sidebar
           space={space}
           projects={projects}
-          activeProjectId={activeProject.id}
+          activeProjectId={activeProjectId}
           sessions={projectSessions}
-          activeSessionId={activeSession?.id ?? ''}
-          literatureCount={demoLiterature.length}
+          activeSessionId={activeSessionId}
+          literatureCount={0}
           onCreateProject={handleCreateProject}
           onCreateSession={handleCreateSession}
           onSelectProject={handleSelectProject}
           onSelectSession={setActiveSessionId}
         />
-        <SessionWorkspace
-          key={`${activeProject.id}/${activeSession?.id ?? 'none'}`}
-          project={activeProject}
-          session={activeSession}
-          space={space}
-          literature={demoLiterature}
-          workspacePath={workspacePath}
-        />
+        {activeProject ? (
+          <SessionWorkspace
+            key={`${activeProject.id}/${activeSession?.id ?? 'none'}`}
+            project={activeProject}
+            session={activeSession}
+            space={space}
+            literature={[]}
+            workspacePath={workspacePath}
+          />
+        ) : (
+          <main className="workbench-main" aria-label="智能体会话">
+            <p style={{ margin: 'auto', color: '#7d8aa6', fontSize: 14 }}>
+              {loading ? '正在加载项目…' : '点击左侧「新建项目」开始你的科学发现任务'}
+            </p>
+          </main>
+        )}
       </div>
     </>
   );

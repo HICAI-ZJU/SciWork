@@ -8,6 +8,14 @@ const SESSION = {
   spaceConfig: { space: 'fudan-xtalpi', displayName: '复旦晶泰自动化工作站', domain: '化学反应', accentColor: '#2F6BFF', devices: [{ id: 'dev-xtalpi', name: '晶泰工作站', kind: 'automated-platform' }] }
 };
 
+// 模拟 /api/call：按工具名返回数据；project_list 可注入项目。
+function mockCall(projects: Array<Record<string, unknown>> = []) {
+  vi.spyOn(globalThis, 'fetch').mockImplementation(async (_url, init) => {
+    const name = init?.body ? JSON.parse(init.body as string).name : '';
+    const data = name === 'project_list' ? { projects } : {};
+    return new Response(JSON.stringify({ ok: true, data }), { status: 200 });
+  });
+}
 function renderAuthed() {
   localStorage.setItem('sciwork.auth.v1', JSON.stringify(SESSION));
   return render(<AuthProvider><App /></AuthProvider>);
@@ -23,9 +31,18 @@ describe('门控', () => {
   });
 
   it('已登录时显示对应空间身份与登出，不再显示登录页', async () => {
+    mockCall();
     renderAuthed();
     expect(await screen.findByRole('button', { name: /登出/ })).toBeInTheDocument();
     expect(screen.getAllByText('复旦晶泰自动化工作站').length).toBeGreaterThanOrEqual(1);
     expect(screen.queryByRole('heading', { name: /SciWork 科学发现工作站/ })).not.toBeInTheDocument();
+  });
+});
+
+describe('数据面板', () => {
+  it('登录后从真实后端加载项目列表', async () => {
+    mockCall([{ id: 'p-real-1', name: '真实联烯项目', objective: 'o', graphSlug: 'g1' }]);
+    renderAuthed();
+    expect((await screen.findAllByText('真实联烯项目')).length).toBeGreaterThan(0);
   });
 });

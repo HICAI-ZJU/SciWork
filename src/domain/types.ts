@@ -24,6 +24,7 @@ export interface Project {
   name: string;
   objective: string;
   directory?: string;
+  graphSlug?: string;
 }
 
 export interface ScienceSession {
