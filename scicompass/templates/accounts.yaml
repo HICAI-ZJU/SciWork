@@ -1,0 +1,24 @@
+# 演示级预置账号 —— 明文密码、本地校验，仅供开发联调。
+# ⚠️ 生产必须替换为加盐哈希（bcrypt/scrypt）或机构 SSO，切勿在真实部署中沿用明文。
+# 层级：账号 account → 团队 team → 空间 space（一账号属一团队、一团队属一空间）。
+accounts:
+  - username: chem.ma
+    password: demo1234
+    displayName: 麻生明课题组 · 研究员
+    team: { id: team-masm, name: 麻生明课题组 }
+    space: fudan-xtalpi
+  - username: mat.zju
+    password: demo1234
+    displayName: 材料智造团队 · 研究员
+    team: { id: team-ichem, name: 材料智造团队 }
+    space: zju-ichemfoundry
+  - username: bio.zju
+    password: demo1234
+    displayName: 合成生物团队 · 研究员
+    team: { id: team-ibio, name: 合成生物团队 }
+    space: zju-ibiofoundry
+  - username: pharma.oasis
+    password: demo1234
+    displayName: 绿洲药物团队 · 研究员
+    team: { id: team-oasis, name: 绿洲药物团队 }
+    space: zju-oasis

@@ -2,6 +2,8 @@
 # init 时按本模板装载装置注册表、默认技能集、本体版本与订阅图谱集
 space: fudan-xtalpi
 displayName: 复旦晶泰化学反应空间
+institution: 复旦大学化学系
+domain: 自动化化学反应实验（合成、筛选、条件优化）
 ontology: { space: chemistry, version: v1 }
 groupSlug: grp-masm
 subscribedKgs: [ReaKE, ElementKG, Material, MatKG, MEKG]

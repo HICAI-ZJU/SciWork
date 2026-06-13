@@ -1,0 +1,43 @@
+# 空间模板：浙大绿洲一号药物发现空间（占位配置，本体复用 chemistry/v1）
+# 真实装置 Profile 与 pharma 本体待后续打磨
+space: zju-oasis
+displayName: 浙大绿洲一号药物发现空间
+institution: 浙江大学智慧绿洲创新中心
+domain: 药物发现的化合物筛选与活性评价
+ontology: { space: chemistry, version: v1 }
+groupSlug: grp-oasis
+subscribedKgs: [Biomedical-Drug, DTINet, ClinicalKG, BioActivity]
+defaultSkills:
+  - scicompass
+  - literature-review
+  - experiment-design
+  - run-and-analyze
+  - sci-data-analysis
+devices:
+  - id: dev-oasis-1
+    name: 绿洲一号药物筛选平台
+    kind: automated-platform
+    physicalAvailable: false
+    capabilities:
+      - experimentType: compound-screening
+        parameterSchema:
+          type: object
+          required: [concentrationUM, incubationHours]
+          properties:
+            concentrationUM: { type: number, minimum: 0.001, maximum: 1000 }
+            incubationHours: { type: number, minimum: 1, maximum: 120 }
+            cellLine: { type: string }
+        constraints: [细胞操作须在无菌环境]
+    safetyRules: [化合物浓度不得超过细胞毒性安全上限, 仅限已审批化合物库]
+    supportedPolicies: [suggest, draft-protocol, queue-with-approval]
+  - id: dev-lcms
+    name: 液相色谱-质谱联用仪
+    kind: instrument
+    physicalAvailable: false
+    partOf: dev-oasis-1
+    capabilities:
+      - experimentType: lcms-analysis
+        parameterSchema: { type: object, properties: { ionMode: { type: string } } }
+        constraints: []
+    safetyRules: []
+    supportedPolicies: [queue-with-approval]

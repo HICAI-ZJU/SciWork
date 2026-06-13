@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
-import { resolve, dirname } from 'node:path';
+import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildServer } from './serve.js';
-import { startHttpGateway } from './httpGateway.js';
+import { startSpacesGateway } from './spacesGateway.js';
 import { resolveDataHome } from './dataHome.js';
 import { initClaudeCode } from './init/claudeCode.js';
 
@@ -19,21 +19,25 @@ const cmd = argv[0];
 
 if (cmd === 'serve') {
   const httpPort = opt('http');
-  // HTTP 网关给 UI 用，默认挂全部模块以演示完整闭环；stdio 默认只挂 knowledge
-  const modules = (opt('modules', httpPort ? 'knowledge,harness' : 'knowledge') as string)
-    .split(',') as ('knowledge' | 'harness')[];
-  const serveOpts = {
-    dataHome: resolveDataHome(opt('data-home')),
-    modules,
-    template: templateFile(opt('template', 'fudan-xtalpi') as string)
-  };
   if (httpPort) {
-    const gw = await startHttpGateway(serveOpts, Number(httpPort));
+    // 多空间 HTTP 网关（SciWork UI）：物理隔离，加载 templates/ 下全部空间 + 登录
+    const templatesDir = resolve(here, '../../..', 'templates');
+    const gw = await startSpacesGateway({
+      dataRoot: resolveDataHome(opt('data-home')),
+      templatesDir,
+      accountsFile: join(templatesDir, 'accounts.yaml')
+    }, Number(httpPort));
     // 机器可读端口行（stdout），供父进程（Electron 主进程）解析；--http 0 时 OS 分配端口
     console.log(`SCICOMPASS_GATEWAY_PORT=${gw.port}`);
-    console.error(`scicompass HTTP gateway listening on http://127.0.0.1:${gw.port} (modules: ${modules.join(', ')})`);
+    console.error(`scicompass spaces gateway on http://127.0.0.1:${gw.port} (spaces: ${gw.spaces.join(', ')})`);
   } else {
-    const server = buildServer(serveOpts);
+    // stdio 单空间（Claude Code）：默认只挂 knowledge
+    const modules = (opt('modules', 'knowledge') as string).split(',') as ('knowledge' | 'harness')[];
+    const server = buildServer({
+      dataHome: resolveDataHome(opt('data-home')),
+      modules,
+      template: templateFile(opt('template', 'fudan-xtalpi') as string)
+    });
     await server.connect(new StdioServerTransport());
   }
 } else if (cmd === 'init') {
