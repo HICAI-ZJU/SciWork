@@ -3,6 +3,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildServer } from './serve.js';
+import { startHttpGateway } from './httpGateway.js';
 import { resolveDataHome } from './dataHome.js';
 import { initClaudeCode } from './init/claudeCode.js';
 
@@ -17,13 +18,22 @@ const templateFile = (t: string) => resolve(here, '../../..', 'templates', `${t}
 const cmd = argv[0];
 
 if (cmd === 'serve') {
-  const modules = (opt('modules', 'knowledge') as string).split(',') as ('knowledge' | 'harness')[];
-  const server = buildServer({
+  const httpPort = opt('http');
+  // HTTP 网关给 UI 用，默认挂全部模块以演示完整闭环；stdio 默认只挂 knowledge
+  const modules = (opt('modules', httpPort ? 'knowledge,harness' : 'knowledge') as string)
+    .split(',') as ('knowledge' | 'harness')[];
+  const serveOpts = {
     dataHome: resolveDataHome(opt('data-home')),
     modules,
     template: templateFile(opt('template', 'fudan-xtalpi') as string)
-  });
-  await server.connect(new StdioServerTransport());
+  };
+  if (httpPort) {
+    const gw = await startHttpGateway(serveOpts, Number(httpPort));
+    console.error(`scicompass HTTP gateway listening on http://127.0.0.1:${gw.port} (modules: ${modules.join(', ')})`);
+  } else {
+    const server = buildServer(serveOpts);
+    await server.connect(new StdioServerTransport());
+  }
 } else if (cmd === 'init') {
   const host = opt('host', 'claude-code');
   if (host !== 'claude-code') {
@@ -53,7 +63,8 @@ if (cmd === 'serve') {
   console.log([
     'scicompass / luopan — 科学罗盘 CLI v0.1.0',
     'usage:',
-    '  scicompass serve --modules knowledge[,harness] [--data-home DIR] [--template NAME]',
+    '  scicompass serve --modules knowledge[,harness] [--data-home DIR] [--template NAME]   # MCP over stdio',
+    '  scicompass serve --http PORT [--modules ...] [--data-home DIR] [--template NAME]      # HTTP 网关（给 SciWork UI）',
     '  scicompass init  --host claude-code [--data-home DIR] [--template NAME]',
     '  scicompass skill add <dir> | skill list'
   ].join('\n'));

@@ -1643,3 +1643,32 @@ input:focus-visible {
     padding: 14px 12px;
   }
 }
+
+/* ---------- 视图切换（悬浮，不占布局流，不影响三栏测试） ---------- */
+.view-switch {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  z-index: 50;
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  background: rgba(11, 31, 55, 0.82);
+  border-radius: 999px;
+  box-shadow: 0 4px 16px rgba(6, 58, 117, 0.32);
+  backdrop-filter: blur(6px);
+}
+.view-switch button {
+  font-size: 12px;
+  font-weight: 600;
+  color: #d8e6f5;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.view-switch button.is-active {
+  background: #b01f24;
+  color: #fff;
+}

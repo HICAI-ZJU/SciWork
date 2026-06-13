@@ -9,6 +9,8 @@
     "dev": "concurrently -k \"npm:dev:vite\" \"npm:dev:electron\"",
     "dev:vite": "vite --host 127.0.0.1",
     "dev:electron": "wait-on http://127.0.0.1:5173 && cross-env VITE_DEV_SERVER_URL=http://127.0.0.1:5173 electron .",
+    "scicompass:gateway": "node scicompass/packages/cli/dist/main.js serve --http 4517 --data-home .sciwork-data/scicompass",
+    "dev:fullstack": "concurrently -k -n gateway,vite -c magenta,cyan \"npm:scicompass:gateway\" \"npm:dev:vite\"",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
     "test": "vitest",
     "test:run": "vitest run",
