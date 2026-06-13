@@ -6,3 +6,5 @@ dist-electron/
 *.log
 *.err
 handoff_*.md
+~$*
+.sciwork-data/
