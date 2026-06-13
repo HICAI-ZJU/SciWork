@@ -1,0 +1,26 @@
+{
+  "name": "scicompass",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "scicompass": "dist/main.js",
+    "luopan": "dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "@scicompass/core": "0.1.0",
+    "@scicompass/labharness": "0.1.0",
+    "@scicompass/labkag": "0.1.0",
+    "@scicompass/lablibrary": "0.1.0",
+    "@scicompass/labontology": "0.1.0",
+    "zod": "^3.23.8"
+  }
+}

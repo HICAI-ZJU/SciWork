@@ -1,0 +1,17 @@
+{
+  "name": "scicompass-workspace",
+  "private": true,
+  "type": "module",
+  "version": "0.1.0",
+  "workspaces": ["packages/*"],
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -b packages/core packages/labontology packages/labkag packages/labharness packages/lablibrary packages/cli",
+    "build": "npm run typecheck"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.5.4",
+    "vitest": "^2.1.0"
+  }
+}

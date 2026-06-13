@@ -1,0 +1,45 @@
+# LabOntology 词汇层：定义 LabGraph 的合法词汇与结构
+space: chemistry
+version: v1
+nodeTypes:
+  - Objective
+  - Hypothesis
+  - LiteratureEvidence
+  - SciGraphEntity
+  - ReportClaim
+  - Protocol
+  - OntologyConstraint
+  - Run
+  - Observation
+  - Result
+  - Analysis
+  - NextSuggestion
+  - Lesson
+  - Method
+  - Prior
+  - NegativeResult
+  - Rule
+  - Device
+edgeLabels:
+  - supports
+  - contradicts
+  - derives-from
+  - validates
+  - produced
+  - anchors
+  - supersedes
+  - about
+provenanceRequired:
+  - LiteratureEvidence
+  - ReportClaim
+  - Protocol
+  - Run
+  - Observation
+  - Result
+  - Analysis
+  - NextSuggestion
+  - Lesson
+  - Method
+  - Prior
+  - NegativeResult
+  - Rule
