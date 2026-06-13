@@ -7,6 +7,8 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
-    globals: true
+    globals: true,
+    // 仅跑前端顶层 src/ 的测试；scicompass 后端有自己的 vitest（cd scicompass && npm test）。
+    include: ['src/**/*.{test,spec}.{ts,tsx}']
   }
 });
