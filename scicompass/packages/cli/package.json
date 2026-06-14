@@ -15,6 +15,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.104.1",
     "@modelcontextprotocol/sdk": "^1.29.0",
     "@scicompass/core": "0.1.0",
     "@scicompass/labharness": "0.1.0",
