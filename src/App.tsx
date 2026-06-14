@@ -116,8 +116,9 @@ function AuthedApp() {
 
   return (
     <>
-      <SpaceHeader />
-      <div className="desktop-app" style={shellStyle}>
+      <div className="authed-shell">
+        <SpaceHeader />
+        <div className="desktop-app" style={shellStyle}>
         <Sidebar
           space={space}
           projects={projects}
@@ -146,6 +147,7 @@ function AuthedApp() {
             </p>
           </main>
         )}
+        </div>
       </div>
       {/* 次级「实时联调」入口：技术性诊断台，按需覆盖层挂载，不再是并列主视图。 */}
       <button

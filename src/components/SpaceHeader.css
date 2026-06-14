@@ -1,20 +1,14 @@
 .space-header {
-  position: fixed;
-  top: 12px;
-  left: 50%;
-  transform: translateX(-50%);
+  flex: none;
   z-index: 40;
   display: flex;
   align-items: center;
   gap: 14px;
-  max-width: min(880px, 92vw);
-  padding: 8px 16px;
-  border-radius: 999px;
-  border: 1px solid #4f7cff;
-  background: rgba(12, 18, 34, 0.82);
-  backdrop-filter: blur(14px);
+  padding: 10px 20px;
+  border: 0;
+  border-bottom: 2px solid #4f7cff;
+  background: linear-gradient(180deg, #0c1222, #0a1020);
   color: #eaf0ff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   font-size: 13px;
 }
 .space-header__dot {
@@ -40,7 +34,7 @@
   align-items: center;
   gap: 6px;
   color: #c5d2ef;
-  margin-left: 4px;
+  margin-left: auto;
 }
 .space-header__logout {
   margin-left: 8px;

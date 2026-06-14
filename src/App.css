@@ -61,6 +61,14 @@ input:focus-visible {
 
 /* ---------- 壳布局与设计变量 ---------- */
 
+/* 已登录外壳：纵向列 = 顶栏(自然高) + 三栏工作区(填满剩余)，顶栏不再悬浮遮挡 */
+.authed-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+
 .desktop-app {
   --zju-blue: #005bac;
   --zju-blue-strong: #063a75;
@@ -76,7 +84,8 @@ input:focus-visible {
   --sidebar-text: #d8e6f5;
   --sidebar-text-dim: rgba(216, 230, 245, 0.6);
 
-  min-height: 100vh;
+  flex: 1 1 auto;
+  min-height: 0;
   display: grid;
   grid-template-columns: minmax(236px, 278px) minmax(500px, 1fr) minmax(286px, 340px);
   color: var(--ink);
@@ -122,7 +131,7 @@ input:focus-visible {
 /* ---------- 左栏：深浙大蓝导航（项目 → 会话 两级） ---------- */
 
 .sidebar {
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -718,7 +727,7 @@ input:focus-visible {
 /* ---------- 中栏：会话线程 ---------- */
 
 .workbench-main {
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-rows: minmax(0, 1fr) auto;
   border-right: 1px solid var(--line);
@@ -1212,7 +1221,7 @@ input:focus-visible {
 /* ---------- 右栏：进度与上下文（按需呈现） ---------- */
 
 .context-panel {
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
   padding: 20px 18px;
   background:
