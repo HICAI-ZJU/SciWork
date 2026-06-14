@@ -50,7 +50,6 @@ export function LoginPage() {
           />
         ))}
         <div className="login-bg__veil" />
-        <div className="login-bg__grid" />
       </div>
 
       <main className="login-card" aria-label="登录">

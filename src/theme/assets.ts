@@ -21,12 +21,10 @@ export const themeAssets = {
   sidebarTexture: assetUrl('patterns/sidebar-graph.svg'),
   /** 中栏与右栏的纸面纹理（透明底，平铺）。 */
   paperTexture: assetUrl('patterns/paper-texture.svg'),
-  /** 登录页随机轮换的知识图谱风格深色背景（assets/themes/）。 */
+  /** 登录页随机轮换的背景：青蓝水墨山水 + 知识图谱星座（DrChen 邮箱同款，assets/themes/）。 */
   loginBackgrounds: [
-    assetUrl('themes/sciwork-theme-graph-night-zju-v2.png'),
-    assetUrl('themes/sciwork-theme-graph-night.png'),
-    assetUrl('themes/sciwork-theme-qiushi-blue-graph-zju-v2.png'),
-    assetUrl('themes/sciwork-theme-qiushi-blue-graph.png'),
-    assetUrl('themes/sciwork-theme-zju-ai-science-night-v3.png')
+    assetUrl('themes/ig_0fff5334e4b62fab016a15b7da8158819187b923b5d97295ee.png'),
+    assetUrl('themes/ig_0fff5334e4b62fab016a1638a1aed8819185336c34e21be136.png'),
+    assetUrl('themes/ig_0fff5334e4b62fab016a1638d3502c8191817d1b2cc5300bc8.png')
   ]
 } as const;
