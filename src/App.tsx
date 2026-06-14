@@ -4,6 +4,7 @@ import { SessionWorkspace } from './components/SessionWorkspace';
 import { Sidebar } from './components/Sidebar';
 import { SpaceHeader } from './components/SpaceHeader';
 import { LoginPage } from './components/LoginPage';
+import { SciCompassWorkbench } from './components/SciCompassWorkbench';
 import { useAuth } from './auth/AuthContext';
 import { sc } from './services/scicompassClient';
 import { projectDirectory } from './domain/project';
@@ -49,6 +50,7 @@ function AuthedApp() {
   const [activeProjectId, setActiveProjectId] = useState('');
   const [activeSessionId, setActiveSessionId] = useState('');
   const [loading, setLoading] = useState(true);
+  const [diag, setDiag] = useState(false);
 
   // 按空间从真实后端加载项目（callTool 已按当前 space 路由、物理隔离）。
   useEffect(() => {
@@ -145,6 +147,26 @@ function AuthedApp() {
           </main>
         )}
       </div>
+      {/* 次级「实时联调」入口：技术性诊断台，按需覆盖层挂载，不再是并列主视图。 */}
+      <button
+        type="button"
+        onClick={() => setDiag((v) => !v)}
+        style={{ position: 'fixed', right: 14, bottom: 14, zIndex: 30, height: 30, padding: '0 12px', borderRadius: 999, border: '1px solid rgba(120,140,180,0.4)', background: 'rgba(12,18,34,0.7)', color: '#9fb2d8', fontSize: 12, cursor: 'pointer' }}
+      >
+        实时联调
+      </button>
+      {diag && (
+        <div style={{ position: 'fixed', inset: 0, zIndex: 50, background: '#070c18', overflow: 'auto' }}>
+          <button
+            type="button"
+            onClick={() => setDiag(false)}
+            style={{ position: 'fixed', right: 16, top: 16, zIndex: 51, height: 32, padding: '0 14px', borderRadius: 8, border: '1px solid rgba(255,255,255,0.2)', background: 'transparent', color: '#eaf0ff', cursor: 'pointer' }}
+          >
+            关闭
+          </button>
+          <SciCompassWorkbench />
+        </div>
+      )}
     </>
   );
 }
