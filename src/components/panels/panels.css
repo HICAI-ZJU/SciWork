@@ -1,0 +1,105 @@
+.panel {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  overflow-y: auto;
+}
+.panel h3 {
+  margin: 0;
+  font-size: 14px;
+}
+.panel__muted {
+  color: #8693ad;
+  font-size: 13px;
+}
+.panel__err {
+  color: #c0392b;
+  font-size: 13px;
+}
+.panel__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.panel__list li {
+  display: flex;
+  flex-direction: column;
+  background: rgba(0, 91, 172, 0.04);
+  border: 1px solid var(--line, #e2e8f0);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.panel__list code {
+  color: #65718a;
+  font-size: 11px;
+}
+.panel__field {
+  display: grid;
+  gap: 4px;
+  font-size: 12px;
+  color: #65718a;
+}
+.panel__field textarea {
+  width: 100%;
+  resize: vertical;
+  border-radius: 8px;
+  border: 1px solid var(--line, #e2e8f0);
+  padding: 6px;
+  font-family: inherit;
+}
+.panel button {
+  align-self: flex-start;
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: 8px;
+  background: #005bac;
+  color: #fff;
+  cursor: pointer;
+}
+.panel button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---------- 右栏标签容器 ---------- */
+.right-panel {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, #fcfcfa, #f6f7f3);
+}
+.right-panel__tabs {
+  display: flex;
+  gap: 2px;
+  padding: 8px 8px 0;
+  flex: none;
+}
+.right-panel__tabs button {
+  flex: 1;
+  height: 30px;
+  border: 0;
+  border-radius: 8px 8px 0 0;
+  background: transparent;
+  color: #65718a;
+  cursor: pointer;
+  font-size: 12px;
+}
+.right-panel__tabs button.is-active {
+  background: #fff;
+  color: #14233c;
+  font-weight: 600;
+}
+.right-panel__body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  background: #fff;
+}
