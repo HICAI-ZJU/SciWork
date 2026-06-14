@@ -3,6 +3,7 @@ import { useWorkflowController } from '../hooks/useWorkflowController';
 import { AgentThread } from './AgentThread';
 import { Composer } from './Composer';
 import { ContextPanel } from './ContextPanel';
+import { RightPanel } from './panels/RightPanel';
 
 interface SessionWorkspaceProps {
   project: Project;
@@ -39,14 +40,19 @@ export function SessionWorkspace({ project, session, space, literature, workspac
           onRun={workflow.runNextAction}
         />
       </main>
-      <ContextPanel
+      <RightPanel
         project={project}
-        session={session}
-        space={space}
-        activeStageId={workflow.stageState.activeStageId}
-        statusByStage={workflow.stageState.statusByStage}
-        artifacts={workflow.artifacts}
-        literatureCount={literature.length}
+        contextTab={
+          <ContextPanel
+            project={project}
+            session={session}
+            space={space}
+            activeStageId={workflow.stageState.activeStageId}
+            statusByStage={workflow.stageState.statusByStage}
+            artifacts={workflow.artifacts}
+            literatureCount={literature.length}
+          />
+        }
       />
     </>
   );
