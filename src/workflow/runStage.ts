@@ -114,18 +114,23 @@ export async function runStage(stageId: ActionableStageId, input: StageInput): P
 
     case 'scigraph-analysis': {
       const analysis = required(artifacts.analysis, 'SciGraph 分析');
-      const g: any = await sc.graphQuery(graph, { limit: 50 });
-      const nodes: any[] = g.nodes ?? [];
+      // 生成式报告：网关层 LLM（无 key 自动回退确定性摘要），上下文由网关从真实图谱自取。
+      const ins = await sc
+        .insightGenerate('report', graph, constraint)
+        .catch(() => ({ generated: false, text: '', items: [] as string[] }));
       const report: ResearchReport = {
         question: project.objective || '研究问题',
         consensus: analysis.publicKnowledge.slice(0, 2),
         disagreements: [],
         uncertainties: [],
-        candidateDirections: nodes.filter((n) => n.type === 'LiteratureEvidence').slice(0, 3).map((n) => `参考：${n.label}`),
-        designRationale: `基于 ${nodes.length} 个图谱节点与 ${analysis.evidence.length} 条文献证据形成方向。`,
+        candidateDirections: (ins.items ?? []).slice(0, 3),
+        designRationale: ins.text || `基于真实图谱与 ${analysis.evidence.length} 条文献证据形成方向。`,
         evidenceIds: analysis.evidence.map((e) => e.id)
       };
-      return { artifacts: { report }, message: '已读取真实项目图谱并汇总研究方向（朴素呈现，无生成式产出）。' };
+      return {
+        artifacts: { report },
+        message: ins.generated ? 'AI 生成研究方向报告。' : '读取真实图谱并汇总研究方向（摘要回退）。'
+      };
     }
 
     case 'report': {
@@ -224,15 +229,21 @@ export async function runStage(stageId: ActionableStageId, input: StageInput): P
 
     case 'experimental-graph': {
       const eg = required(artifacts.experimentalGraph, 'Experimental Graph');
-      const suggestions: NextSuggestion[] = [
-        {
-          id: 'suggestion-001',
-          label: '收窄条件搜索范围',
-          rationale: `基于真实图谱 ${eg.nodes.length} 个节点的回流结果。`,
-          expectedImpact: '减少下一轮搜索空间，聚焦温和窗口。'
-        }
-      ];
-      return { artifacts: { suggestions }, message: '已基于真实回流图谱生成下一轮建议（朴素呈现）。' };
+      // 生成式下一轮建议：网关层 LLM（无 key 回退）。items 为空则给一条确定性兜底。
+      const ins = await sc
+        .insightGenerate('suggestion', graph)
+        .catch(() => ({ generated: false, text: '', items: [] as string[] }));
+      const labels = ins.items && ins.items.length ? ins.items : ['收窄条件搜索范围'];
+      const suggestions: NextSuggestion[] = labels.slice(0, 3).map((label, i) => ({
+        id: `suggestion-${i + 1}`,
+        label,
+        rationale: ins.text || `基于真实图谱 ${eg.nodes.length} 个节点的回流结果。`,
+        expectedImpact: '减少下一轮搜索空间，聚焦温和窗口。'
+      }));
+      return {
+        artifacts: { suggestions },
+        message: ins.generated ? 'AI 生成下一轮建议。' : '基于真实回流图谱生成建议（摘要回退）。'
+      };
     }
   }
 }

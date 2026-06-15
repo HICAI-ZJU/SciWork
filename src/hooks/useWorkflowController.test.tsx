@@ -18,6 +18,7 @@ function mockBackend() {
   vi.spyOn(sc, 'runSubmit').mockResolvedValue({ runId: 'run1', status: 'completed' });
   vi.spyOn(sc, 'runStatus').mockResolvedValue({ runId: 'run1', status: 'completed', newEvents: [] });
   vi.spyOn(sc, 'resultList').mockResolvedValue({ results: [] });
+  vi.spyOn(sc, 'insightGenerate').mockResolvedValue({ generated: false, text: '', items: [] });
 }
 
 afterEach(() => vi.restoreAllMocks());

@@ -114,5 +114,8 @@ export const sc = {
   resultFlowback: (resultId: string, graph: string, runNodeId: string, round = 1) =>
     callTool<{ resultNodeId: string }>('result_flowback', { resultId, graph, runNodeId, round }),
   artifactSave: (args: Record<string, unknown>) => callTool<{ id: string; uri: string }>('artifact_save', args),
-  artifactList: (projectId: string, kind?: string) => callTool<{ artifacts: any[] }>('artifact_list', { projectId, kind })
+  artifactList: (projectId: string, kind?: string) => callTool<{ artifacts: any[] }>('artifact_list', { projectId, kind }),
+  // 生成式洞见（网关层 LLM 拦截；无 key 时网关回退确定性摘要）。
+  insightGenerate: (kind: 'report' | 'suggestion', graph: string, constraint?: string) =>
+    callTool<{ generated: boolean; text: string; items?: string[] }>('insight_generate', { kind, graph, constraint })
 };

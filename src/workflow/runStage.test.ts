@@ -38,3 +38,27 @@ it('缺 graphSlug 时抛出明确错误', async () => {
   const noGraph = { ...base, project: { ...project, graphSlug: undefined } };
   await expect(runStage('literature', noGraph)).rejects.toThrow(/graphSlug/);
 });
+
+it('scigraph-analysis 调 insightGenerate 填充 report', async () => {
+  vi.spyOn(sc, 'insightGenerate').mockResolvedValue({ generated: true, text: 'AI 报告', items: ['方向一'] });
+  const artifacts = {
+    ...createEmptyArtifacts(),
+    analysis: { entities: [], evidence: [{ id: 'e1', literatureId: 'l1', quote: '—', claim: 'A', confidence: 0 }], publicKnowledge: [] }
+  };
+  const out = await runStage('scigraph-analysis', { ...base, artifacts });
+  expect(sc.insightGenerate).toHaveBeenCalledWith('report', 'g1', '');
+  expect(out.artifacts.report?.designRationale).toBe('AI 报告');
+  expect(out.artifacts.report?.candidateDirections).toEqual(['方向一']);
+});
+
+it('experimental-graph 调 insightGenerate 生成建议', async () => {
+  vi.spyOn(sc, 'insightGenerate').mockResolvedValue({ generated: true, text: 'AI 依据', items: ['加大温度梯度', '换溶剂'] });
+  const artifacts = {
+    ...createEmptyArtifacts(),
+    experimentalGraph: { nodes: [{ id: 'n1', type: 'Observation' as const, label: 'x', detail: '' }], edges: [] }
+  };
+  const out = await runStage('experimental-graph', { ...base, artifacts });
+  expect(sc.insightGenerate).toHaveBeenCalledWith('suggestion', 'g1');
+  expect(out.artifacts.suggestions?.map((s) => s.label)).toEqual(['加大温度梯度', '换溶剂']);
+  expect(out.artifacts.suggestions?.[0].rationale).toBe('AI 依据');
+});
