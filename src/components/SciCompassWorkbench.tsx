@@ -163,7 +163,7 @@ export function SciCompassWorkbench() {
         <div className={`scw-conn ${connected ? 'is-on' : 'is-off'}`}>
           <span className="scw-dot" />
           {connected
-            ? `已连接 · ${healthInfo!.tools} 工具 · ${healthInfo!.modules.join('+')}`
+            ? `已连接 · ${healthInfo!.tools} 工具 · ${healthInfo!.spaces?.length ?? 0} 空间`
             : '未连接网关'}
         </div>
       </header>

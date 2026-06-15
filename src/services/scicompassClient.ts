@@ -18,7 +18,8 @@ const BASE: string = resolveBase();
 export interface HealthInfo {
   ok: boolean;
   service: string;
-  modules: string[];
+  // 空间网关 /health 返回的是空间列表（非单空间的 modules）。
+  spaces: string[];
   tools: number;
 }
 

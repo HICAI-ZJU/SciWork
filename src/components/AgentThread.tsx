@@ -79,8 +79,8 @@ export function AgentThread({
           <h2>研究总结报告</h2>
           <p>{report.designRationale}</p>
           <ul>
-            {report.candidateDirections.slice(0, 3).map((direction) => (
-              <li key={direction}>{direction}</li>
+            {report.candidateDirections.slice(0, 3).map((direction, i) => (
+              <li key={`${i}-${direction}`}>{direction}</li>
             ))}
           </ul>
         </article>
