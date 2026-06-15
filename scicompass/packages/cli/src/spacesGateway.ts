@@ -7,6 +7,7 @@ import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js';
 import { readTemplate, type SpaceMeta } from '@scicompass/labharness';
 import { buildServer } from './serve.js';
 import { AccountStore } from './accounts.js';
+import { generateInsight } from './insight/insightProvider.js';
 
 // 多空间 HTTP 网关（给 SciWork UI）：物理隔离——每空间独立数据目录 <dataRoot>/<space>/，
 // 各自一个进程内 MCP server+client（复用全部 31 工具）。登录校验账号→返回空间上下文，
@@ -100,6 +101,18 @@ export async function startSpacesGateway(opts: SpacesGatewayOptions, port: numbe
         const client = clients.get(space);
         if (!client) { send(res, 400, { ok: false, error: `unknown or missing space: ${space || '(none)'}` }); return; }
         if (!body.name || typeof body.name !== 'string') { send(res, 400, { ok: false, error: 'missing tool name' }); return; }
+        // 网关层拦截 insight_generate（生成式 LLM 不进 scicompass MCP 核心——核心保持零 LLM）
+        if (body.name === 'insight_generate') {
+          const a: any = body.arguments ?? {};
+          const insight = await generateInsight({
+            client,
+            graph: String(a.graph ?? ''),
+            kind: a.kind === 'suggestion' ? 'suggestion' : 'report',
+            constraint: a.constraint
+          });
+          send(res, 200, { ok: true, data: insight });
+          return;
+        }
         const result: any = await client.callTool({ name: body.name, arguments: body.arguments ?? {} });
         const text = result.content?.[0]?.text ?? 'null';
         if (result.isError) { send(res, 200, { ok: false, error: text }); return; }

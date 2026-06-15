@@ -87,3 +87,13 @@ it('login spaceConfig 带空间强调色 accentColor', async () => {
   const { json } = await post('/api/login', { username: 'chem.ma', password: 'demo1234' });
   expect(json.spaceConfig.accentColor).toBe('#2F6BFF');
 });
+
+it('insight_generate 无 key 走网关回退（generated:false）', async () => {
+  await post('/api/call', { space: 'fudan-xtalpi', name: 'project_create', arguments: { name: 'ins', objective: 'o' } });
+  const a = await post('/api/call', { space: 'fudan-xtalpi', name: 'project_list', arguments: {} });
+  const graph = a.json.data.projects[0].graphSlug;
+  const { json } = await post('/api/call', { space: 'fudan-xtalpi', name: 'insight_generate', arguments: { kind: 'report', graph } });
+  expect(json.ok).toBe(true);
+  expect(json.data.generated).toBe(false);
+  expect(typeof json.data.text).toBe('string');
+});
