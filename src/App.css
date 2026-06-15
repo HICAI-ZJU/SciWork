@@ -686,44 +686,6 @@ input:focus-visible {
   font-size: 12px;
 }
 
-.sidebar__footer {
-  margin-top: auto;
-  padding: 12px 6px 2px;
-  border-top: 1px solid rgba(196, 219, 243, 0.12);
-  display: grid;
-  gap: 8px;
-}
-
-.sidebar__resource {
-  min-width: 0;
-  display: grid;
-  grid-template-columns: 16px minmax(0, 1fr);
-  gap: 8px;
-  align-items: start;
-  color: rgba(244, 249, 255, 0.78);
-  font-size: 12px;
-}
-
-.sidebar__resource svg {
-  margin-top: 1px;
-  color: rgba(216, 230, 245, 0.55);
-}
-
-.sidebar__resource span {
-  display: block;
-}
-
-.sidebar__resource small {
-  grid-column: 2;
-  display: block;
-  min-width: 0;
-  margin-top: 1px;
-  color: var(--sidebar-text-dim);
-  font-size: 10.5px;
-  line-height: 1.4;
-  overflow-wrap: anywhere;
-}
-
 /* ---------- 中栏：会话线程 ---------- */
 
 .workbench-main {
@@ -1587,10 +1549,6 @@ input:focus-visible {
   .workbench-main,
   .context-panel {
     height: auto;
-  }
-
-  .sidebar__footer {
-    margin-top: 16px;
   }
 
   .workbench-main {

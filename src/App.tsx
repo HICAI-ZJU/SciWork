@@ -125,7 +125,6 @@ function AuthedApp() {
           activeProjectId={activeProjectId}
           sessions={projectSessions}
           activeSessionId={activeSessionId}
-          literatureCount={0}
           onCreateProject={handleCreateProject}
           onCreateSession={handleCreateSession}
           onSelectProject={handleSelectProject}

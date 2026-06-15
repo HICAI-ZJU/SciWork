@@ -1,5 +1,5 @@
-import { BookOpen, FolderKanban, Network, Plus } from 'lucide-react';
-import { projectDirectory, referenceDirectory } from '../domain/project';
+import { FolderKanban, Plus } from 'lucide-react';
+import { projectDirectory } from '../domain/project';
 import type { Project, ScienceSession, ScientificSpace } from '../domain/types';
 import { themeAssets } from '../theme/assets';
 import { SciWorkPulseIcon } from './SciWorkPulseIcon';
@@ -10,7 +10,6 @@ interface SidebarProps {
   activeProjectId: string;
   sessions: ScienceSession[];
   activeSessionId: string;
-  literatureCount: number;
   onCreateProject: () => void;
   onCreateSession: () => void;
   onSelectProject: (projectId: string) => void;
@@ -30,14 +29,11 @@ export function Sidebar({
   activeProjectId,
   sessions,
   activeSessionId,
-  literatureCount,
   onCreateProject,
   onCreateSession,
   onSelectProject,
   onSelectSession
 }: SidebarProps) {
-  const activeProject = projects.find((project) => project.id === activeProjectId);
-
   return (
     <nav className="sidebar" aria-label="项目与会话导航">
       {/* 身份区：IP 形象 + 流光特效 + 当前科学发现空间 */}
@@ -126,23 +122,6 @@ export function Sidebar({
           ))}
         </ol>
       </section>
-
-      <div className="sidebar__footer">
-        <div className="sidebar__resource">
-          <BookOpen size={14} />
-          <span>私域文献库</span>
-          {activeProject && (
-            <small>
-              {referenceDirectory(activeProject)} · {literatureCount} 篇
-            </small>
-          )}
-        </div>
-        <div className="sidebar__resource">
-          <Network size={14} />
-          <span>知识图谱</span>
-          <small>SciGraph / LabOntology / Experimental Graph</small>
-        </div>
-      </div>
     </nav>
   );
 }
