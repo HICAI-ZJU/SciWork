@@ -1,7 +1,0 @@
-node_modules/
-dist/
-*.tsbuildinfo
-.sciwork-data/
-# tsc 编译产物（源码均为 .ts；产物应在 dist/，src 下的为历史残留）
-packages/*/src/**/*.js
-packages/*/src/**/*.d.ts

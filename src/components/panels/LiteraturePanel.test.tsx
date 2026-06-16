@@ -5,9 +5,17 @@ import { LiteraturePanel } from './LiteraturePanel';
 
 afterEach(() => vi.restoreAllMocks());
 const project = { id: 'p1', spaceId: 's', name: 't', objective: '温和偶联', graphSlug: 'g1' };
+const literature = {
+  id: 'l1',
+  title: 'Allene coupling',
+  source: '本地测试',
+  year: 2026,
+  abstract: '测试摘要',
+  evidenceTags: ['偶联']
+};
 
 it('渲染真实文献列表', async () => {
-  vi.spyOn(sc, 'literatureSearch').mockResolvedValue({ hits: [{ id: 'l1', title: 'Allene coupling' }] });
+  vi.spyOn(sc, 'literatureSearch').mockResolvedValue({ hits: [literature] });
   render(<LiteraturePanel project={project as never} />);
   expect(await screen.findByText('Allene coupling')).toBeInTheDocument();
 });

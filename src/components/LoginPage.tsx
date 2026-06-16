@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { Lock, UserRound } from 'lucide-react';
+import { Lock, ShieldCheck, UserRound } from 'lucide-react';
 import { useAuth } from '../auth/AuthContext';
 import { themeAssets } from '../theme/assets';
 import './LoginPage.css';
@@ -52,11 +52,24 @@ export function LoginPage() {
         <div className="login-bg__veil" />
       </div>
 
+      <section className="login-intro" aria-hidden="true">
+        <span className="login-kicker">Zhejiang University AI for Science</span>
+        <h2>连接文献、数据、仪器与机器人</h2>
+        <p>以 SciCompass、LabKAG、LabHarness、LabOntology 为会话能力，进入你的科学发现空间。</p>
+        <div className="login-space-strip">
+          <span>反应筛选</span>
+          <span>材料合成</span>
+          <span>生物铸造</span>
+          <span>药筛评价</span>
+        </div>
+      </section>
+
       <main className="login-card" aria-label="登录">
         <div className="login-logo-wrap">
           <span className="login-logo-halo" aria-hidden="true" />
           <img className="login-logo" src={themeAssets.logo} alt="SciWork 求是智核" />
         </div>
+        <span className="login-card__eyebrow"><ShieldCheck size={13} aria-hidden="true" /> 本地优先工作站</span>
         <h1>SciWork 科学发现工作站</h1>
         <p className="login-sub">四套自动化科学装置 · 四个科学发现空间</p>
 

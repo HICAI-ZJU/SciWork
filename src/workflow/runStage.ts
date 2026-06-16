@@ -61,7 +61,7 @@ function required<T>(value: T | null, name: string): T {
 
 function graphOf(project: Project): string {
   if (!project.graphSlug) {
-    throw new Error('当前项目缺少 graphSlug（请从真实后端选择/创建项目）');
+    throw new Error('当前项目缺少 graphSlug（请从本地 UI 服务选择/创建项目）');
   }
   return project.graphSlug;
 }
@@ -76,8 +76,8 @@ const SEED_BIBTEX = `@article{seed,
 }`;
 
 /**
- * 逐阶段把科学工作流接到真实后端（同一套 MCP 工具，按空间隔离）。
- * 每阶段调用真实 sc.* 工具并把返回适配为 WorkflowArtifacts；
+ * 逐阶段把科学工作流接到本地 UI 服务。
+ * 每阶段调用 sc.* 工具并把返回适配为 WorkflowArtifacts；
  * report / next-suggestion 无单一工具，读真实图谱 + 本地汇总（朴素呈现）。
  */
 export async function runStage(stageId: ActionableStageId, input: StageInput): Promise<StageOutcome> {
@@ -143,7 +143,7 @@ export async function runStage(stageId: ActionableStageId, input: StageInput): P
       const protocol: ProtocolDraft = {
         id: saved.id,
         objective: report.question,
-        reactionSystem: '真实后端协议',
+        reactionSystem: '本地 UI 协议',
         reagents: [],
         catalysts: [],
         solvents: [],

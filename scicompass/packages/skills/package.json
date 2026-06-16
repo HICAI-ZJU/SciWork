@@ -1,6 +1,0 @@
-{
-  "name": "@scicompass/skills",
-  "version": "0.1.0",
-  "description": "SciCompass 内置技能包（SKILL.md 集合，平台中立）",
-  "files": ["**/SKILL.md", "**/references/**", "**/scripts/**"]
-}

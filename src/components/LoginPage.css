@@ -2,9 +2,12 @@
   position: fixed;
   inset: 0;
   display: grid;
-  place-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 420px);
+  align-items: center;
+  gap: clamp(28px, 5vw, 72px);
   overflow: hidden;
-  background: #0b1830;
+  padding: clamp(28px, 5vw, 72px);
+  background: #071426;
   color: #16243a;
 }
 
@@ -20,40 +23,91 @@
   background-size: cover;
   background-position: center;
   opacity: 0;
-  transform: scale(1.06);
-  transition: opacity 1.8s ease;
-  animation: login-kenburns 26s ease-in-out infinite alternate;
+  transform: scale(1.04);
+  transition: opacity 1.6s ease;
+  animation: login-kenburns 30s ease-in-out infinite alternate;
 }
 .login-bg__layer.is-active {
   opacity: 1;
 }
 @keyframes login-kenburns {
-  from { transform: scale(1.06) translate(0, 0); }
-  to { transform: scale(1.16) translate(-2%, -1.5%); }
+  from { transform: scale(1.04) translate(0, 0); }
+  to { transform: scale(1.12) translate(-1.6%, -1.2%); }
 }
-/* 极轻蒙版：浅水墨保持透亮，仅给一点聚焦晕影 + 底部淡压暗助卡片浮起 */
 .login-bg__veil {
   position: absolute;
   inset: 0;
-  background: radial-gradient(
-    1100px 760px at 50% 44%,
-    rgba(255, 255, 255, 0.1),
-    rgba(10, 22, 46, 0) 55%,
-    rgba(8, 16, 34, 0.22) 100%
-  );
+  background:
+    linear-gradient(90deg, rgba(5, 15, 32, 0.76) 0%, rgba(5, 16, 34, 0.42) 38%, rgba(5, 16, 34, 0.22) 62%, rgba(5, 16, 34, 0.68) 100%),
+    radial-gradient(900px 640px at 28% 42%, rgba(0, 91, 172, 0.28), transparent 64%),
+    radial-gradient(620px 420px at 80% 24%, rgba(176, 31, 36, 0.24), transparent 68%),
+    radial-gradient(1200px 760px at 50% 50%, transparent 48%, rgba(3, 8, 18, 0.48) 100%);
+}
+
+.login-intro {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  color: #eef6ff;
+  text-shadow: 0 16px 42px rgba(0, 0, 0, 0.36);
+}
+.login-kicker {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(210, 230, 255, 0.28);
+  background: rgba(8, 24, 48, 0.36);
+  color: #b9d8ff;
+  font-size: 12px;
+  font-weight: 650;
+}
+.login-intro h2 {
+  max-width: 650px;
+  margin: 18px 0 12px;
+  color: #fff;
+  font-size: clamp(34px, 5vw, 62px);
+  line-height: 1.03;
+  font-weight: 760;
+}
+.login-intro p {
+  max-width: 520px;
+  margin: 0;
+  color: rgba(230, 241, 255, 0.84);
+  font-size: 16px;
+  line-height: 1.7;
+}
+.login-space-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 28px;
+}
+.login-space-strip span {
+  display: inline-flex;
+  align-items: center;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(246, 250, 255, 0.9);
+  font-size: 12px;
 }
 
 /* ---------- 浅色磨砂玻璃卡片：浅/深背景皆可读 ---------- */
 .login-card {
   position: relative;
   z-index: 1;
-  width: min(340px, 88vw);
-  padding: 30px 28px 26px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.74);
-  backdrop-filter: blur(22px) saturate(1.25);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow: 0 26px 70px rgba(16, 38, 82, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  justify-self: end;
+  width: min(380px, 100%);
+  padding: 32px 30px 28px;
+  border-radius: 18px;
+  background: rgba(250, 253, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  box-shadow: 0 28px 84px rgba(4, 13, 28, 0.46), inset 0 1px 0 rgba(255, 255, 255, 0.92);
   text-align: center;
   animation: login-card-in 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -66,7 +120,7 @@
   position: relative;
   display: inline-grid;
   place-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .login-logo {
   position: relative;
@@ -95,16 +149,28 @@
   50% { transform: scale(1.18); opacity: 0.9; }
 }
 
+.login-card__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  min-height: 24px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(0, 91, 172, 0.08);
+  color: #005bac;
+  font-size: 12px;
+  font-weight: 700;
+}
 .login-card h1 {
-  font-size: 17px;
-  margin: 4px 0;
-  letter-spacing: 0.4px;
+  font-size: 19px;
+  margin: 10px 0 4px;
+  letter-spacing: 0;
   color: #14233c;
 }
 .login-sub {
   color: #5b6b86;
   font-size: 12px;
-  margin: 2px 0 22px;
+  margin: 2px 0 24px;
 }
 
 .login-card form {
@@ -117,8 +183,8 @@
   gap: 10px;
   height: 44px;
   padding: 0 14px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.62);
+  border-radius: 10px;
+  background: rgba(245, 249, 253, 0.9);
   border: 1px solid rgba(18, 40, 82, 0.16);
   color: #6a7a96;
   transition: border-color 0.2s, box-shadow 0.2s, color 0.2s, background 0.2s;
@@ -156,9 +222,9 @@
   margin-top: 6px;
   height: 46px;
   border: 0;
-  border-radius: 12px;
+  border-radius: 10px;
   cursor: pointer;
-  background: linear-gradient(120deg, #005bac, #1f6fd0 55%, #6a5cff);
+  background: linear-gradient(120deg, #005bac, #1f6fd0 58%, #b01f24);
   color: #fff;
   font-weight: 600;
   font-size: 14.5px;
@@ -191,6 +257,47 @@
 .login-card button[disabled] {
   opacity: 0.55;
   cursor: not-allowed;
+}
+
+@media (max-width: 900px) {
+  .login-shell {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    padding: 24px;
+  }
+  .login-intro {
+    max-width: 520px;
+    text-align: center;
+  }
+  .login-intro h2 {
+    font-size: clamp(30px, 8vw, 44px);
+  }
+  .login-intro p {
+    margin: 0 auto;
+  }
+  .login-space-strip {
+    justify-content: center;
+    margin-top: 18px;
+  }
+  .login-card {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 560px) {
+  .login-shell {
+    align-content: center;
+    gap: 18px;
+    padding: 18px;
+  }
+  .login-intro p,
+  .login-space-strip {
+    display: none;
+  }
+  .login-card {
+    width: min(360px, 100%);
+    padding: 26px 22px 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

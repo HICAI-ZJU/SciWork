@@ -5,15 +5,23 @@ import { useWorkflowController } from './useWorkflowController';
 import type { Project } from '../domain/types';
 
 const project: Project = { id: 'p1', spaceId: 'fudan-xtalpi', name: 't', objective: '温和偶联', graphSlug: 'g1' };
+const literature = {
+  id: 'l1',
+  title: 'A',
+  source: '本地测试',
+  year: 2026,
+  abstract: '测试摘要',
+  evidenceTags: ['证据']
+};
 
-// 工作流逐阶段调用真实 sc.*；测试里全部 mock，断言阶段机推进与守卫逻辑。
+// 工作流逐阶段调用本地 UI 服务 sc.*；测试里 mock 关键返回，断言阶段机推进与守卫逻辑。
 function mockBackend() {
   vi.spyOn(sc, 'literatureImport').mockResolvedValue({ imported: 1, ids: ['l1'] });
-  vi.spyOn(sc, 'literatureSearch').mockResolvedValue({ hits: [{ id: 'l1', title: 'A' }] });
+  vi.spyOn(sc, 'literatureSearch').mockResolvedValue({ hits: [literature] });
   vi.spyOn(sc, 'graphWrite').mockResolvedValue({ written: { nodes: 2, edges: 1 } });
-  vi.spyOn(sc, 'graphAlign').mockResolvedValue({ anchors: [{ anchor: 'x' }], source: 'SciGraph' });
+  vi.spyOn(sc, 'graphAlign').mockResolvedValue({ anchors: [{ nodeId: 'ev1', anchor: 'x' }], source: 'SciGraph' });
   vi.spyOn(sc, 'graphQuery').mockResolvedValue({ nodes: [{ id: 'ev1', type: 'LiteratureEvidence', label: 'A', detail: '' }], edges: [] });
-  vi.spyOn(sc, 'protocolSave').mockResolvedValue({ id: 'pr1', version: 1 });
+  vi.spyOn(sc, 'protocolSave').mockResolvedValue({ id: 'pr1', version: 1, objective: 'o', payload: {} });
   vi.spyOn(sc, 'ontologyCheck').mockResolvedValue({ ok: true, violations: [] });
   vi.spyOn(sc, 'runSubmit').mockResolvedValue({ runId: 'run1', status: 'completed' });
   vi.spyOn(sc, 'runStatus').mockResolvedValue({ runId: 'run1', status: 'completed', newEvents: [] });
@@ -23,7 +31,7 @@ function mockBackend() {
 
 afterEach(() => vi.restoreAllMocks());
 
-describe('useWorkflowController（接真实后端）', () => {
+describe('useWorkflowController（接本地 UI 服务）', () => {
   it('逐阶段推进直到 next-suggestion', async () => {
     mockBackend();
     const { result } = renderHook(() => useWorkflowController({ project, literature: [] }));
